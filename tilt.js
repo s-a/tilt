@@ -63,7 +63,7 @@
         }
     };
     var tilt = function (axes) {
-
+        currentColor = style.color;
         if (axesPrev) {
             for (var i = 0; i < axes.length; i++) {
                 var delta = axes[i] - axesPrev[i];
@@ -71,6 +71,7 @@
                     deflection = delta;
                     document.title = deflection;
                     currentColor = (delta > tolerance ? 'red' : 'green');
+                    ctx.strokeStyle = currentColor;
                 }
             }
         }
