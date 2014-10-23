@@ -1,9 +1,10 @@
 (function () {
 
-    document.write('<a id="itae-anchor" href="#"></a>');
+    document.write('<div id="itae-anchor"></div>');
     var anchor = document.getElementById('itae-anchor'),
         container = anchor.parentNode,
-        viewport = document.createElement('div');
+        viewport = document.createElement('div'),
+        snd = document.getElementById('snd');
     while (container.hasChildNodes()) {
         container.removeChild(container.firstChild);
     }
@@ -50,6 +51,7 @@
         }
     };
     var drawTheLine = function () {
+
         ctx.beginPath();
         ctx.moveTo(x, y);
         x += pan;
@@ -69,7 +71,12 @@
                 if (Math.abs(delta) > Math.abs(deflection)) {
                     deflection = delta;
                     //document.title = deflection;
-                    currentColor = (Math.abs(delta) > tolerance ? 'red' : 'green');
+                    if (Math.abs(delta) > tolerance){
+                        currentColor = 'red';
+                        snd.play();
+                    } else {
+                        currentColor = 'green';
+                    }
                     ctx.strokeStyle = currentColor;
                 }
             }
@@ -94,5 +101,7 @@
         }, true);
     }
     setInterval(drawTheLine, refreshRate);
-
+    setTimeout( function  (argument) {
+         snd.play();
+    },1000)
 })();
