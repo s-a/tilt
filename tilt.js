@@ -22,7 +22,7 @@
         totalWidth = pan * 1000,
         zero = height / 2,
         refreshRate = 100,
-        threshold = 200;
+        threshold = 2000;
     var x, y = zero,
         deflection = 0,
         axesPrev = [],
@@ -61,11 +61,14 @@
         }
     };
     var tilt = function (axes) {
+
         if (axesPrev) {
             for (var i = 0; i < axes.length; i++) {
                 var delta = axes[i] - axesPrev[i];
                 if (Math.abs(delta) > Math.abs(deflection)) {
                     deflection = delta;
+                    document.title = deflection;
+                    ctx.strokeStyle = 'red';
                 }
             }
         }
