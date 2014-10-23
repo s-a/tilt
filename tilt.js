@@ -17,14 +17,13 @@
     anchor.style.zIndex = 1;
     anchor.style.zIndex = 0;
     viewport.style.overflow = 'hidden';
-    var tolerance = 0.4;
+    var tolerance = 0.2;
     var width = viewport.clientWidth,
         height = viewport.clientHeight,
         pan = Math.round(width / 200),
         totalWidth = pan * 1000,
         zero = height / 2,
-        refreshRate = 100,
-        threshold = 2000;
+        refreshRate = 100;
     var x, y = zero,
         deflection = 0,
         axesPrev = [],
@@ -63,14 +62,14 @@
         }
     };
     var tilt = function (axes) {
-        currentColor = style.color;
+        //currentColor = style.color;
         if (axesPrev) {
             for (var i = 0; i < axes.length; i++) {
                 var delta = axes[i] - axesPrev[i];
                 if (Math.abs(delta) > Math.abs(deflection)) {
                     deflection = delta;
-                    document.title = deflection;
-                    currentColor = (delta > tolerance ? 'red' : 'green');
+                    //document.title = deflection;
+                    currentColor = (Math.abs(delta) > tolerance ? 'red' : 'green');
                     ctx.strokeStyle = currentColor;
                 }
             }
