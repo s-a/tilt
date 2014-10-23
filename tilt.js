@@ -10,12 +10,14 @@
     container.appendChild(anchor);
     container.appendChild(viewport);
     var style = window.getComputedStyle(container, null);
+    var currentColor = style.color;
     anchor.style.position = 'absolute';
     anchor.style.width = viewport.style.width = style.width;
     anchor.style.height = viewport.style.height = style.height;
     anchor.style.zIndex = 1;
     anchor.style.zIndex = 0;
     viewport.style.overflow = 'hidden';
+    var tolerance = 0.4;
     var width = viewport.clientWidth,
         height = viewport.clientHeight,
         pan = Math.round(width / 200),
@@ -34,7 +36,7 @@
         viewport.appendChild(newCanvas);
         viewport.scrollLeft = 0;
         ctx = newCanvas.getContext('2d');
-        ctx.strokeStyle = style.color;
+        ctx.strokeStyle = currentColor;
         if (canvas) {
             ctx.drawImage(canvas, width - x, 0);
             viewport.removeChild(canvas);
@@ -68,7 +70,7 @@
                 if (Math.abs(delta) > Math.abs(deflection)) {
                     deflection = delta;
                     document.title = deflection;
-                    ctx.strokeStyle = 'red';
+                    currentColor = (delta > tolerance ? 'red' : 'green');
                 }
             }
         }
