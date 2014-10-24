@@ -1,4 +1,14 @@
 (function () {
+    var tolerance = .04;
+    var zoom = 80;
+    var scale = .2;
+    var refreshRate = 100;
+    var color = {
+        red:"#ff0101",
+        green:"#49fb35"
+    };
+    var lineWidth = 4;
+
 
     document.write('<div id="itae-anchor"></div>');
     var anchor = document.getElementById('itae-anchor'),
@@ -18,13 +28,13 @@
     anchor.style.zIndex = 1;
     anchor.style.zIndex = 0;
     viewport.style.overflow = 'hidden';
-    var tolerance = 0.2;
+
+
     var width = viewport.clientWidth,
         height = viewport.clientHeight,
         pan = Math.round(width / 200),
         totalWidth = pan * 1000,
-        zero = height / 2,
-        refreshRate = 100;
+        zero = height / 2;
     var x, y = zero,
         deflection = 0,
         axesPrev = [],
@@ -56,7 +66,8 @@
         ctx.moveTo(x, y);
         x += pan;
         y = zero + (height * deflection / 25);
-        deflection = Math.random() * .2 - .1;
+        deflection = (Math.random() * scale - .1);
+        ctx.lineWidth = lineWidth;
         ctx.lineTo(x, y);
         ctx.stroke();
         for (var i = 0; i < pan; i++) {
@@ -69,14 +80,15 @@
             for (var i = 0; i < axes.length; i++) {
                 var delta = axes[i] - axesPrev[i];
                 if (Math.abs(delta) > Math.abs(deflection)) {
-                    deflection = delta;
-                    //document.title = deflection;
                     if (Math.abs(delta) > tolerance){
                         currentColor = 'red';
                         snd.play();
                     } else {
                         currentColor = 'green';
                     }
+                    //document.title = deflection;
+                    //
+                    deflection = delta * zoom;
                     ctx.strokeStyle = currentColor;
                 }
             }
@@ -84,6 +96,7 @@
         axesPrev = axes;
     };
     freshCanvas();
+    ctx.lineWidth = lineWidth;
     ctx.moveTo(0, y);
     ctx.lineTo(x, y);
     ctx.stroke();
@@ -102,6 +115,6 @@
     }
     setInterval(drawTheLine, refreshRate);
     setTimeout( function  (argument) {
-         snd.play();
+     
     },1000)
 })();
