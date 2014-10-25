@@ -1,8 +1,9 @@
 var config = {
-    tolerance : .04,
+    tolerance : .03,
     zoom : 80,
     scale : .2,
-    refreshRate : 100
+    refreshRate : 100,
+    alarm : 0
 };
 
 
@@ -46,6 +47,7 @@ document.addEventListener('DOMContentLoaded',function() {
     initEditButton("zoom");
     initEditButton("refreshRate");
     initEditButton("scale");
+    initEditButton("alarm");
 });
 
 
@@ -130,7 +132,7 @@ document.addEventListener('DOMContentLoaded',function() {
                 if (Math.abs(delta) > Math.abs(deflection)) {
                     if (Math.abs(delta) > config.tolerance){
                         currentColor = 'red';
-                        snd.play();
+                        if (config.alarm == 1) snd.play();
                     } else {
                         currentColor = 'green';
                     }
