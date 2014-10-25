@@ -28,10 +28,13 @@
 		}
 
 		.menu {
-		  position: absolute;
-		  right: 1em;
-		  top: 1em;
-		  color: #fff;
+	    	position: absolute;
+		  	color: #fff;
+		}
+
+		.menu__item {
+	    	cursor: pointer;
+		  	text-decoration: underline;
 		}
 
 		#share {
@@ -47,10 +50,14 @@
 
   Your browser does not support the audio element.
 </audio>
-
     <div id="seismograph">
       	<script src="tilt.js"></script>
     </div>
-	<a class="menu" href="#test">test</a>
+	<div class="menu">
+		<a id="tolerance"></a> &mdash; 
+	    <a id="zoom"></a> &mdash; 
+	    <a id="scale"></a> &mdash; 
+	    <a id="refreshRate"></a> 
+	</div>
 </body>
 </html>

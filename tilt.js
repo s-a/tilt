@@ -1,14 +1,62 @@
+var config = {
+    tolerance : .04,
+    zoom : 80,
+    scale : .2,
+    refreshRate : 100
+};
+
+
+var setValue = function(parmName, value, control) {
+    if (value) {
+        config[parmName] = value;
+    } else {
+        value = config[parmName];
+    };
+    control.innerHTML = parmName + ":" + value;
+};
+
+var edit = function() {
+    var parmName = this.id;
+    var value = parseFloat(prompt("Please enter a value for \"" + parmName + "\"", config[parmName]));
+    if (!isNaN(value)){
+        setValue(parmName, value, this);
+        if (console) {
+            console.log(parmName, value)
+            console.log(config);
+        };
+    }
+    return false;
+};
+
+var get = function(id) {
+    return document.getElementById(id);
+};
+
+var initEditButton = function(parmName) {
+    var test = get(parmName);
+    test.onclick = edit;
+    test.className = "menu__item";
+    setValue(parmName, null, test);
+};
+
+
+
+document.addEventListener('DOMContentLoaded',function() {
+    initEditButton("tolerance");
+    initEditButton("zoom");
+    initEditButton("refreshRate");
+    initEditButton("scale");
+});
+
+
 (function () {
-    var tolerance = .04;
-    var zoom = 80;
-    var scale = .2;
-    var refreshRate = 100;
+
+   
     var color = {
         red:"#ff0101",
         green:"#49fb35"
     };
     var lineWidth = 4;
-
 
     document.write('<div id="itae-anchor"></div>');
     var anchor = document.getElementById('itae-anchor'),
@@ -66,12 +114,12 @@
         ctx.moveTo(x, y);
         x += pan;
         y = zero + (height * deflection / 25);
-        deflection = (Math.random() * scale - .1);
+        deflection = (Math.random() * config.scale - .1);
         ctx.lineWidth = lineWidth;
         ctx.lineTo(x, y);
         ctx.stroke();
         for (var i = 0; i < pan; i++) {
-            setTimeout(scrollCanvas, i * refreshRate / pan);
+            setTimeout(scrollCanvas, i * config.refreshRate / pan);
         }
     };
     var tilt = function (axes) {
@@ -80,7 +128,7 @@
             for (var i = 0; i < axes.length; i++) {
                 var delta = axes[i] - axesPrev[i];
                 if (Math.abs(delta) > Math.abs(deflection)) {
-                    if (Math.abs(delta) > tolerance){
+                    if (Math.abs(delta) > config.tolerance){
                         currentColor = 'red';
                         snd.play();
                     } else {
@@ -88,7 +136,7 @@
                     }
                     //document.title = deflection;
                     //
-                    deflection = delta * zoom;
+                    deflection = delta * config.zoom;
                     ctx.strokeStyle = currentColor;
                 }
             }
@@ -113,7 +161,7 @@
             tilt([orientation.x * 50, orientation.y * 50]);
         }, true);
     }
-    setInterval(drawTheLine, refreshRate);
+    setInterval(drawTheLine, config.refreshRate);
     setTimeout( function  (argument) {
      
     },1000)
